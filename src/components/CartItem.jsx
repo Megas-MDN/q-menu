@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { BsTrash3 } from 'react-icons/bs';
+import { CiSquareRemove } from 'react-icons/ci';
 import { IoMdAdd } from 'react-icons/io';
 import { RiSubtractFill } from 'react-icons/ri';
 
@@ -13,9 +13,9 @@ const CartItem = (props) => {
           <button
             onClick={() => props.removeItem(props.id)}
             type='button'
-            className='flex justify-end p-1 items-center w-fit'
+            className='flex justify-end p-1 items-center w-fit focus:outline-none'
           >
-            <BsTrash3 size={'1.5rem'} />
+            <CiSquareRemove size={'1.5rem'} />
           </button>
         </div>
         <div className='qtd-container flex w-full justify-between border border-zinc-700 h-[25px]'>
