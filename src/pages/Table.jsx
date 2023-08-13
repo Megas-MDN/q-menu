@@ -56,9 +56,10 @@ const Table = () => {
     setCart((prev) => prev.filter((el) => el.id !== id));
   };
 
-  const sendRequest = () => {
+  const sendRequest = async () => {
     setOpenCart(false);
     setOpenSended(true);
+    const res = await Api.sendRequest({ table, cart });
     commandStore.addCommand(cart);
     commandStore.setTable(table);
     setCart([]);
