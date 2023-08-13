@@ -9,9 +9,6 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const URL = import.meta.env.VITE_URL;
-  console.log(URL, 'Login');
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await Api.login({ email, password });
