@@ -86,7 +86,7 @@ const Table = () => {
   if (loading) return <div>Loading</div>;
   return (
     <div className='relative'>
-      <header className='header-container flex justify-between items-top p-1'>
+      <header className='header-container flex justify-between items-top p-2 fixed w-[300px] backdrop-blur-sm bg-zinc-700 bg-opacity-30 top-0'>
         <h1 className='title text-3xl'>Menu</h1>
         {commandStore.commands.length > 0 && (
           <button
@@ -99,7 +99,7 @@ const Table = () => {
         )}
         <div className='cart-container relative'>
           {cart.length > 0 && (
-            <p className='counter px-1 absolute bb rounded-full bg-red-900 border-none right-[-10px] top-[-10px]'>
+            <p className='counter px-1 absolute bb rounded-full bg-red-900 border-none right-[-5px] top-[-5px]'>
               {cart.length}
             </p>
           )}
@@ -115,7 +115,8 @@ const Table = () => {
           </button>
         </div>
       </header>
-      <ul className='items-container flex flex-col gap-2'>
+      {/* <hr className='line border border-zinc-700' /> */}
+      <ul className='items-container flex flex-col gap-2 mt-6'>
         {myMenu.map((item, i) => (
           <Item key={item?.name || i} {...item} addCart={addCart} />
         ))}

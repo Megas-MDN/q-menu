@@ -17,13 +17,14 @@ const ModalCommand = (props) => {
             <AiFillCloseSquare size={'1.8rem'} />
           </button>
         </header>
-        <ul className=''>
+        <ul className='commands-container max-h-[535px] overflow-y-scroll'>
           {store.commands.map((cmm, i) => (
             <li key={i + `${cmm.date}`} className=' bg-zinc-600 bg-opacity-40'>
+              <hr className='w-full border boder-white' />
               <h2 className='mb-2'>
                 Comanda: <span className='date text-sm'>{`${cmm.date}`}</span>
               </h2>
-              <ul>
+              <ul className='command-container'>
                 <li
                   key={0}
                   className='items-container flex justify-between bg-zinc-700 px-2'
@@ -37,9 +38,9 @@ const ModalCommand = (props) => {
                     key={item.id + j}
                     className='items-container flex justify-between px-2'
                   >
-                    <h3>{item.name}</h3>
-                    <p>{item.qtd}</p>
-                    <p>{item.price}</p>
+                    <h3 className='flex justify-start w-1/3'>{item.name}</h3>
+                    <p className=' w-1/3'>{item.qtd}</p>
+                    <p className='flex justify-end w-1/3'>{item.price}</p>
                   </li>
                 ))}
                 <div className='my-1 flex justify-between px-2 bg-zinc-500 bg-opacity-30'>
