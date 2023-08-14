@@ -9,7 +9,7 @@ const login = async ({ email, password }) => {
     url: '/login',
     data: { email, password },
   });
-  console.log(res);
+
   return { error: !res, ...res };
 };
 
@@ -18,10 +18,12 @@ const getMenu = async ({ restaurant }) => {
   return { error: !res, menu: res?.menu || [] };
 };
 
-const sendRequest = async ({ table, cart }) => {
-  // post na api new order
-  // send emit to fetch orders
-  return { table, cart };
+const sendRequest = async ({ restaurant, table, cart }) => {
+  const res = await fetchService.postApi({
+    url: `/${restaurant}/${table}`,
+    data: { command: cart, date: new Date() },
+  });
+  return res;
 };
 
 export default { getAllRestaurants, login, getMenu, sendRequest };

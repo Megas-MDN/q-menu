@@ -59,7 +59,8 @@ const Table = () => {
   const sendRequest = async () => {
     setOpenCart(false);
     setOpenSended(true);
-    const res = await Api.sendRequest({ table, cart });
+    const res = await Api.sendRequest({ restaurant, table, cart });
+    console.log(res, 'response after create command');
     commandStore.addCommand(cart);
     commandStore.setTable(table);
     setCart([]);
@@ -86,7 +87,7 @@ const Table = () => {
 
   if (loading) return <div>Loading</div>;
   return (
-    <div className='relative'>
+    <div className='relative mx-auto flex flex-col items-center'>
       <header className='header-container flex justify-between items-top p-2 fixed w-[300px] backdrop-blur-sm bg-zinc-700 bg-opacity-30 top-0'>
         <h1 className='title text-3xl'>Menu</h1>
         {commandStore.commands.length > 0 && (
