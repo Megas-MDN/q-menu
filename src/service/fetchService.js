@@ -4,6 +4,8 @@ const URL = import.meta.env.VITE_URL;
 const baseAuth = () => {
   return {
     headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
       Authorization: '',
     },
   };
