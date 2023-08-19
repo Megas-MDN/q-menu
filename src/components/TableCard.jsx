@@ -6,6 +6,15 @@ const TableCard = (props) => {
   const [index, setIndex] = useState(0);
   console.log(props.commands[index], 'log');
 
+  const handleNext = () => {
+    const next = (index + 1) % props.commands.length;
+    setIndex(next);
+  };
+  const handlePrev = () => {
+    const prev = (index - 1) % props.commands.length;
+    setIndex(prev);
+  };
+
   const calcTotal = (arr) => {
     const subTotal = arr.map((cmm) => {
       return cmm.command.reduce((a, b) => (a += b.price * b.qtd), 0);
@@ -18,35 +27,59 @@ const TableCard = (props) => {
         <h2>Mesa: {props.name}</h2>
         <h2>Total: {calcTotal(props.commands).toFixed(2)} R$</h2>
       </div>
-      <ul className='commands-container-table flex flex-col gap-2'>
-        {props.commands.map((el, indx) => (
-          <li
-            key={indx}
-            className='comand-container-table bg-zinc-600 border border-zinc-300'
+      {props.commands && props?.commands[index] && (
+        <div className='pagination-container flex'>
+          <button
+            disabled={index - 1 < 0}
+            onClick={() => handlePrev()}
+            type='button'
+            className='www mx-auto py-1 disabled:opacity-30'
           >
+            prev
+          </button>
+          <button
+            disabled={index + 1 >= props.commands.length}
+            onClick={() => handleNext()}
+            type='button'
+            className='www mx-auto py-1 disabled:opacity-30'
+          >
+            next
+          </button>
+        </div>
+      )}
+      <ul className='commands-container-table flex flex-col gap-2'>
+        {props.commands && props?.commands[index] && (
+          <li className='comand-container-table bg-zinc-600 border border-zinc-300'>
             <>
-              {el.command.map((item, i) => (
+              <p>Numero da ordem: {props.commands.length - index}</p>
+              {props?.commands[index]?.command.map((item, i) => (
                 <div
                   className={`flex gap-1 p-1 justify-between ${
                     i % 2 === 0 ? 'bg-zinc-800' : 'bg-zinc-700'
                   }`}
                   key={i + item.id}
                 >
-                  <p>Item: {item.name}</p>
-                  <p>Quantidade: {item.qtd}</p>
-                  <p>Preço: {item.price}</p>
+                  <p className='flex-1 text-start'>Item: {item.name}</p>
+                  <p className='flex-1 text-center'>Quantidade: {item.qtd}</p>
+                  <p className='flex-1 text-end'>Preço: {item.price}</p>
                 </div>
               ))}
-              <small>{moment(el.date).format('DD/MM/YYYY, HH:mm:ss')}</small>
+              {props.commands[index] && (
+                <small>
+                  {moment(props.commands[index]?.date).format(
+                    'DD/MM/YYYY, HH:mm:ss'
+                  )}
+                </small>
+              )}
             </>
           </li>
-        ))}
+        )}
       </ul>
-      {props.commands.length > 0 && (
+      {props?.commands?.length > 0 && (
         <button
           type='button'
           onClick={() => props.clearTable(props.hash)}
-          className='www w-fit mx-auto py-1'
+          className='www mx-auto py-1'
         >
           Clear
         </button>

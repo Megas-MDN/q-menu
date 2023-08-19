@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import moment from 'moment/moment';
 import { useCommand } from '../store/useCommand';
 import { AiFillCloseSquare } from 'react-icons/ai';
 
@@ -22,8 +23,14 @@ const ModalCommand = (props) => {
             <li key={i + `${cmm.date}`} className=' bg-zinc-600 bg-opacity-40'>
               <hr className='w-full border boder-white' />
               <h2 className='mb-2'>
-                Comanda: <span className='date text-sm'>{`${cmm.date}`}</span>
+                Data-hora da comanda:{' '}
+                <span className='date text-sm'>
+                  {moment(cmm.date).format('DD/MM/YYYY, HH:mm:ss')}
+                </span>
               </h2>
+              <h3 className='text-left px-2 font-semibold  bg-zinc-600 bg-opacity-40'>
+                Nº da ordem: {store.commands.length - i}
+              </h3>
               <ul className='command-container'>
                 <li
                   key={0}
