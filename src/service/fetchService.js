@@ -1,23 +1,24 @@
 import axios from 'axios';
 const URL = import.meta.env.VITE_URL;
 
-const baseAuth = () => {
+const baseAuth = (tkn = '') => {
   return {
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
-      Authorization: '',
+      Authorization: tkn,
     },
   };
 };
 
-const appRequest = async ({ method, url, data, auth = baseAuth() }) => {
+const appRequest = async ({ method, url, data, auth }) => {
+  const nAuth = auth ? baseAuth(auth) : baseAuth();
   try {
     const response = await axios({
       method,
       url: `${URL}${url}`,
       data,
-      ...auth,
+      ...nAuth,
     });
 
     return response.data;
@@ -26,8 +27,8 @@ const appRequest = async ({ method, url, data, auth = baseAuth() }) => {
   }
 };
 
-const getApi = async ({ url = '', data = {} } = {}) =>
-  appRequest({ method: 'GET', url, data });
+const getApi = async ({ url = '', data = {}, auth = '' } = {}) =>
+  appRequest({ method: 'GET', url, data, auth });
 
 const deleteApi = async ({ url, data, auth }) =>
   appRequest({ method: 'DELETE', url, data, auth });

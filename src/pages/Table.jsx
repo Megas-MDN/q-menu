@@ -9,6 +9,7 @@ import { RiRestaurantLine } from 'react-icons/ri';
 import CartItem from '../components/CartItem';
 import { useCommand } from '../store/useCommand';
 import ModalCommand from '../components/ModalCommand';
+import useSocket from '../hooks/useSocket';
 
 const Table = () => {
   const [loading, setLoading] = useState(true);
@@ -20,6 +21,7 @@ const Table = () => {
   const navigate = useNavigate();
   const { restaurant, table } = useParams();
   const commandStore = useCommand();
+  const { sendCommand } = useSocket({ route: restaurant, table });
 
   const fetchMenu = async () => {
     const res = await Api.getMenu({ restaurant });
@@ -62,7 +64,7 @@ const Table = () => {
     const res = await Api.sendRequest({ restaurant, table, cart });
     console.log(res, 'response after create command');
     commandStore.addCommand(cart);
-    commandStore.setTable(table);
+    sendCommand({ table, orderNumber: commandStore.commands.length });
     setCart([]);
   };
 
@@ -78,6 +80,7 @@ const Table = () => {
         commandStore.resetAll();
       }
     }
+    commandStore.setTable(table);
   };
 
   useEffect(() => {

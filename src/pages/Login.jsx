@@ -1,17 +1,26 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Api from '../service/index';
 import { useRestaurant } from '../store/useRestaurant';
 import { useNavigate } from 'react-router-dom';
+import Loader from '../components/Loader';
 
 const Login = () => {
   const navigate = useNavigate();
   const state = useRestaurant();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loader, setLoader] = useState(false);
+
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!email || !password) return;
+    setLoader(true);
     const response = await Api.login({ email, password });
+    setLoader(false);
 
     if (response.error) {
       setEmail('');
@@ -36,7 +45,7 @@ const Login = () => {
     }
   };
   return (
-    <div className='flex flex-col items-center gap-2 www p-2 rounded-md shadow'>
+    <div className='login-container flex flex-col items-center gap-2 www p-2 rounded-md shadow w-[320px] mx-auto mt-[100px]'>
       {state.errorMessage && <p>{state.errorMessage}</p>}
       <h1 className=' text-4xl self-start'>Login</h1>
       <hr className='border border-zinc-400 w-full my-2' />
@@ -71,7 +80,7 @@ const Login = () => {
             onInput={({ target: { value } }) => setPassword(value)}
           />
         </label>
-        <button className='www'>Login</button>
+        <button className='www'>{loader ? <Loader /> : 'Login'}</button>
       </form>
     </div>
   );
