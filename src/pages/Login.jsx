@@ -44,10 +44,24 @@ const Login = () => {
       setField('');
     }
   };
+
+  const fillTestAccount = () => {
+    setEmail('restaurante_one@test.com');
+    setPassword('123456');
+  };
   return (
     <div className='login-container flex flex-col items-center gap-2 www p-2 rounded-md shadow w-[320px] mx-auto mt-[100px]'>
       {state.errorMessage && <p>{state.errorMessage}</p>}
-      <h1 className=' text-4xl self-start'>Login</h1>
+      <div className='flex w-full justify-between p-1 items-end'>
+        <h1 className=' text-4xl self-start'>Login</h1>
+        <button
+          type='button'
+          className='www px-3 py-1'
+          onClick={() => fillTestAccount()}
+        >
+          Conta Teste
+        </button>
+      </div>
       <hr className='border border-zinc-400 w-full my-2' />
       <form
         action=''

@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import moment from 'moment/moment';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const TableCard = (props) => {
   const [index, setIndex] = useState(0);
@@ -84,7 +85,15 @@ const TableCard = (props) => {
           Clear
         </button>
       )}
-      <small>{props.hash}</small>
+      <div className='flex justify-between px-2 py-1 items-center'>
+        <small>{props.hash}</small>
+        <Link
+          to={`${window.location.href}${props.route}/${props.hash}`}
+          target='_blank'
+        >
+          Link
+        </Link>
+      </div>
     </div>
   );
 };
