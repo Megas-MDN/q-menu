@@ -10,11 +10,15 @@ import { SlArrowDown, SlArrowUp } from 'react-icons/sl';
 import { BiTrashAlt } from 'react-icons/bi';
 import { useState } from 'react';
 
+const PLACEHOLDER_IMG =
+  'https://letshummussaintjohn.com/img/placeholders/burger_placeholder.png?v=1';
+
 const Menu = (props) => {
+  console.log(props);
   const [item, setItem] = useState({
-    name: props.name,
-    pic: props.pic,
-    price: props.price,
+    name: props.name || '',
+    pic: props.pic || '',
+    price: props.price || '',
     editMode: props.editMode || false,
   });
 
@@ -22,7 +26,7 @@ const Menu = (props) => {
     ...props.ingredients,
   });
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(props.editMode);
   const [openPlus, setOpenPlus] = useState(false);
 
   const [ingredient, setIngredient] = useState('');
@@ -50,7 +54,9 @@ const Menu = (props) => {
     props.save({ ...item, ingredients: { ...ingredients } });
   };
 
-  const handleTrash = () => {};
+  const handleTrash = () => {
+    props.deleteItem(props.id);
+  };
 
   return (
     <li className='border border-zinc-300 p-2 w-[350px] flex flex-col gap-1 items-center mx-auto'>
@@ -125,7 +131,11 @@ const Menu = (props) => {
           className='bg-zinc-700 px-2 py-1 disabled:opacity-80'
         />
       </label>
-      <img src={item.pic} alt={item.name} className=' rounded-full w-[150px]' />
+      <img
+        src={item.pic || PLACEHOLDER_IMG}
+        alt={item.name || 'Imagem do lanche'}
+        className=' rounded-full w-[150px] bg-zinc-800'
+      />
 
       <div className='ingredients-top-down-container w-full flex flex-col'>
         {open && (
