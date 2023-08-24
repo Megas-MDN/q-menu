@@ -35,6 +35,12 @@ export const useRestaurant = create(
       removeItem: (index) =>
         set((state) => ({ menu: state.menu.filter((_m, i) => i !== index) })),
       addItem: (item) => set((state) => ({ menu: [...state.menu, item] })),
+      addTable: (table) =>
+        set((state) => ({ tables: [...state.tables, table] })),
+      removeTable: (index) =>
+        set((state) => ({
+          tables: state.tables.filter((_t, i) => i !== index),
+        })),
     }),
     {
       name: 'restaurant',

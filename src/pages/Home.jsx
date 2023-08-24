@@ -36,6 +36,7 @@ const Home = () => {
   const checkToken = () => {
     if (!store?.token) return navigate('/login');
     setLoading(false);
+    fetchTables();
   };
 
   const clearTable = async (hash) => {
@@ -54,7 +55,6 @@ const Home = () => {
 
   useEffect(() => {
     checkToken();
-    fetchTables();
   }, []);
 
   useEffect(() => {
@@ -80,7 +80,11 @@ const Home = () => {
         <button type='button' className='www' onClick={() => fetchTables()}>
           Refresh
         </button>
-        <button type='button' className='www'>
+        <button
+          type='button'
+          className='www'
+          onClick={() => navigate('/table')}
+        >
           Mesas
         </button>
       </div>

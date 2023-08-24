@@ -13,10 +13,6 @@ const EditMenu = () => {
   // const [reFetching, setReFetching] = useState(false);
   const navigate = useNavigate();
   const store = useRestaurant();
-  if (!store.menu) {
-    store.resetAll();
-    navigate('/login');
-  }
 
   const handleEdit = async (obj) => {
     console.log(obj, 'handleEdit');
@@ -69,7 +65,12 @@ const EditMenu = () => {
   };
 
   useEffect(() => {
-    if (store.menu) setLoading(false);
+    if (!store.menu || !store.token) {
+      store.resetAll();
+      navigate('/login');
+    } else {
+      setLoading(false);
+    }
   }, []);
 
   if (loading) return <div>Loading...</div>;
