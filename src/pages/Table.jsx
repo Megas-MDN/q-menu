@@ -121,7 +121,7 @@ const Table = () => {
         </div>
       </header>
       {/* <hr className='line border border-zinc-700' /> */}
-      <ul className='items-container flex flex-col gap-2 mt-6'>
+      <ul className='items-container flex flex-col gap-2 mt-16'>
         {myMenu.map((item, i) => (
           <Item key={item?.name || i} {...item} addCart={addCart} />
         ))}

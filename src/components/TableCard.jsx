@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 const TableCard = (props) => {
   const [index, setIndex] = useState(0);
-  console.log(props.commands[index], 'log');
 
   const handleNext = () => {
     const next = (index + 1) % props.commands.length;
@@ -24,7 +23,7 @@ const TableCard = (props) => {
   };
   return (
     <div className='table-container www flex flex-col justify-between p-1 gap-2'>
-      <div className='flex gap-1 bb justify-around my-1'>
+      <div className='flex gap-1  justify-around my-1 bg-zinc-700 p-1'>
         <h2>Mesa: {props.name}</h2>
         <h2>Total: {calcTotal(props.commands).toFixed(2)} R$</h2>
       </div>

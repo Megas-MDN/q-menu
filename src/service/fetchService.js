@@ -42,11 +42,12 @@ const putApi = async ({ url, data, auth }) => {
   });
 };
 
-const postApi = async ({ url = '', data = {} }) =>
+const postApi = async ({ url = '', data = {}, auth }) =>
   appRequest({
     method: 'POST',
     url,
     data,
+    auth,
   });
 
 export default { getApi, deleteApi, putApi, postApi };

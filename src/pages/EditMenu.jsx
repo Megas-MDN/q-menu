@@ -2,12 +2,13 @@ import { useNavigate } from 'react-router-dom';
 import { useRestaurant } from '../store/useRestaurant';
 import { useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
-// import fetchService from '../service/fetchService';
+import { v1 } from 'uuid';
+import fetchService from '../service/fetchService';
 import Menu from '../components/Menu';
 
 const EditMenu = () => {
   const [loading, setLoading] = useState(true);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   // const [isFetching, setIsFetching] = useState(false);
   // const [reFetching, setReFetching] = useState(false);
   const navigate = useNavigate();
@@ -17,8 +18,55 @@ const EditMenu = () => {
     navigate('/login');
   }
 
-  const handleEdit = () => {};
-  const handleDelete = () => {};
+  const handleEdit = async (obj) => {
+    console.log(obj, 'handleEdit');
+    const res = await fetchService.putApi({
+      url: `/${store.route}/menu/${obj.id}`,
+      data: obj,
+      auth: store.token,
+    });
+    const index = store.menu.findIndex((el) => el.id === obj.id);
+    store.editItem({
+      index,
+      item: obj,
+    });
+    console.log(res, 'Response to edit');
+  };
+  const handleDelete = async (id) => {
+    console.log(id, 'handleDelete');
+    const res = await fetchService.deleteApi({
+      url: `/${store.route}/menu/${id}`,
+      auth: store.token,
+    });
+    const index = store.menu.findIndex((el) => el.id === id);
+    store.removeItem(index);
+    console.log(res, 'Response to edit');
+  };
+
+  const createItem = ({ price, name, pic, ingredients }) => {
+    if (!price || !name || !pic || !ingredients) {
+      return { erro: true, message: 'Preencha todos os campos' };
+    }
+    const id = v1();
+    const item = {
+      id,
+      price: isNaN(+price) ? 0 : +price,
+      name,
+      pic,
+      ingredients,
+    };
+    console.log('createItem', item, store.token);
+    setOpen(false);
+    store.addItem(item);
+    fetchService
+      .postApi({
+        url: `/add-to-menu`,
+        data: item,
+        auth: store.token,
+      })
+      .then((r) => console.log(r, 'response'));
+    return {};
+  };
 
   useEffect(() => {
     if (store.menu) setLoading(false);
@@ -41,10 +89,8 @@ const EditMenu = () => {
           <Menu
             key={i + item.id}
             {...item}
-            handleEdit={handleEdit}
-            handleDelete={handleDelete}
-            save={() => {}}
-            deleteItem={() => {}}
+            save={handleEdit}
+            deleteItem={handleDelete}
           />
         ))}
       </ul>
@@ -58,7 +104,11 @@ const EditMenu = () => {
             >
               <AiOutlineClose />
             </button>
-            <Menu editMode={true} />
+            <Menu
+              editMode={true}
+              save={createItem}
+              deleteItem={() => setOpen(false)}
+            />
           </div>
         </div>
       )}

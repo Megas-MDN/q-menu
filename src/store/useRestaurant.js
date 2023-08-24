@@ -27,6 +27,14 @@ export const useRestaurant = create(
       setEmail: (e) => set(() => ({ email: e })),
       setMenu: (m) => set(() => ({ menu: m })),
       setTables: (t) => set(() => ({ tables: t })),
+      editItem: ({ index, item }) =>
+        set((state) => {
+          if (index < 0) return;
+          return { menu: state.menu.map((m, i) => (i === index ? item : m)) };
+        }),
+      removeItem: (index) =>
+        set((state) => ({ menu: state.menu.filter((_m, i) => i !== index) })),
+      addItem: (item) => set((state) => ({ menu: [...state.menu, item] })),
     }),
     {
       name: 'restaurant',

@@ -14,8 +14,6 @@ const Home = () => {
   const { data } = useSocket({ route: store.route, table: null });
 
   const fetchTables = async () => {
-    // get /table
-    // Auth: token
     if (isFetching) {
       setReFetching(true);
       return;
@@ -25,7 +23,7 @@ const Home = () => {
       url: `/table`,
       auth: store.token,
     });
-    console.log(res);
+    console.log(res, 'fetchTables', reFetching, 'reFetching');
     store.setTables(res.tables);
     setIsFetching(false);
 
@@ -35,7 +33,6 @@ const Home = () => {
     }
   };
 
-  // fetchTables('9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d');
   const checkToken = () => {
     if (!store?.token) return navigate('/login');
     setLoading(false);
@@ -57,10 +54,10 @@ const Home = () => {
 
   useEffect(() => {
     checkToken();
+    fetchTables();
   }, []);
 
   useEffect(() => {
-    console.log(data, 'data');
     if (data.length > 0) {
       fetchTables();
     }
@@ -69,7 +66,7 @@ const Home = () => {
   if (loading) return <div>Loading</div>;
 
   return (
-    <div className='bbb h-full w-full place-self-start'>
+    <div className=' h-full w-full place-self-start'>
       <header className='flex justify-around p-1 items-center'>
         <h1 className='text-3xl p-2'>Dashboard: {store.name}</h1>
         <button type='button' className='www h-fit' onClick={() => goExit()}>
@@ -80,11 +77,14 @@ const Home = () => {
         <button type='button' className='www' onClick={() => navigate('/menu')}>
           Menu
         </button>
+        <button type='button' className='www' onClick={() => fetchTables()}>
+          Refresh
+        </button>
         <button type='button' className='www'>
           Mesas
         </button>
       </div>
-      <ul className='bb grid max-sm:grid-cols-1 grid-cols-2 gap-2 p-3'>
+      <ul className=' grid max-sm:grid-cols-1 grid-cols-2 gap-2 p-3'>
         {store.tables.map((el) => (
           <TableCard
             key={el.hash}

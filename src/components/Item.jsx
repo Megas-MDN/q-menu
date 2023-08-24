@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl';
 import { MdOutlineAddShoppingCart } from 'react-icons/md';
 const Item = (props) => {
+  console.log(props);
   const [open, setOpen] = useState(false);
   const ingredients = Object.keys(props?.ingredients || {});
   const isIngrediens = ingredients.length > 0;
@@ -36,9 +37,9 @@ const Item = (props) => {
           />
         </button>
         <div className='title-price-container flex flex-col justify-between items-end w-[75px]'>
-          <h2 className='title text-2xl'>{props.name}</h2>
+          <h2 className='title text-xl'>{props.name}</h2>
           <p className='price text-lg font-semibold flex items-center'>
-            {props?.price.toFixed(2)}{' '}
+            {(+props?.price).toFixed(2)}{' '}
             <span className='cifra text-[12px] h-[20px] w-[20px] flex justify-center items-end'>
               R$
             </span>

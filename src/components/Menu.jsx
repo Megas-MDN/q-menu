@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import {
   AiOutlinePlus,
-  AiOutlineCloseSquare,
   AiOutlineCheck,
   AiFillEdit,
   AiFillSave,
@@ -9,13 +8,14 @@ import {
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl';
 import { BiTrashAlt } from 'react-icons/bi';
 import { useState } from 'react';
+import Ingredient from './Ingredient';
 
 const PLACEHOLDER_IMG =
   'https://letshummussaintjohn.com/img/placeholders/burger_placeholder.png?v=1';
 
 const Menu = (props) => {
-  console.log(props);
   const [item, setItem] = useState({
+    id: props.id,
     name: props.name || '',
     pic: props.pic || '',
     price: props.price || '',
@@ -31,8 +31,11 @@ const Menu = (props) => {
 
   const [ingredient, setIngredient] = useState('');
 
+  const [erroMessage, setErroMessage] = useState('');
+
   const addIngredit = () => {
-    if (ingredient) setIngredients((prev) => ({ ...prev, [ingredient]: true }));
+    if (!ingredient) return;
+    setIngredients((prev) => ({ ...prev, [ingredient]: true }));
     setOpenPlus(false);
     setIngredient('');
   };
@@ -51,7 +54,25 @@ const Menu = (props) => {
   const handleSave = () => {
     setItem((prev) => ({ ...prev, editMode: false }));
     setOpen(false);
-    props.save({ ...item, ingredients: { ...ingredients } });
+    const { message } = props.save({
+      ...item,
+      ingredients: {
+        ...ingredients,
+      },
+      editMode: false,
+    });
+
+    setErroMessage(message || '');
+  };
+
+  const editItem = ({ value, index }) => {
+    setIngredients((prev) =>
+      Object.keys(prev).reduce((a, b, i) => {
+        if (i !== index) return { ...a, [b]: true };
+        a[value] = true;
+        return a;
+      }, {})
+    );
   };
 
   const handleTrash = () => {
@@ -59,7 +80,8 @@ const Menu = (props) => {
   };
 
   return (
-    <li className='border border-zinc-300 p-2 w-[350px] flex flex-col gap-1 items-center mx-auto'>
+    <li className='border border-zinc-300 p-2 w-[350px] flex flex-col gap-1 items-center mx-auto max-h-[500px] overflow-y-scroll'>
+      {erroMessage && <h1 className='text-xl'>{erroMessage}</h1>}
       <div className='save-edit-container w-full flex flex-row-reverse justify-between'>
         {item.editMode ? (
           <>
@@ -179,29 +201,14 @@ const Menu = (props) => {
             )}
             <ul className='ingredient-list-container flex flex-col'>
               {Object.keys(ingredients).map((key, i) => (
-                <li
+                <Ingredient
                   key={key + i}
-                  className='infredient-list flex p-1 justify-between'
-                >
-                  <input
-                    className='px-2 py-1'
-                    type='text'
-                    disabled={!item.editMode}
-                    value={key}
-                    onChange={({ target: { value } }) =>
-                      setIngredients((prev) => ({ ...prev, [key]: value }))
-                    }
-                  />
-                  {item.editMode && (
-                    <button
-                      type='button'
-                      className=' p-0'
-                      onClick={() => removeIngredit(key)}
-                    >
-                      <AiOutlineCloseSquare size={'1.5rem'} />
-                    </button>
-                  )}
-                </li>
+                  index={i}
+                  pKey={key}
+                  removeIngredit={removeIngredit}
+                  editMode={item.editMode}
+                  editItem={editItem}
+                />
               ))}
             </ul>
           </>

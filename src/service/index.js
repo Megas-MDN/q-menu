@@ -14,8 +14,9 @@ const login = async ({ email, password }) => {
 };
 
 const getMenu = async ({ restaurant }) => {
-  const res = docs.find((r) => r.route === restaurant);
-  return { error: !res, menu: res?.menu || [] };
+  const res = await fetchService.getApi({ url: `/${restaurant}/menu` });
+  console.log(res);
+  return { error: !res, menu: res?.menu || [], message: res.message };
 };
 
 const sendRequest = async ({ restaurant, table, cart }) => {

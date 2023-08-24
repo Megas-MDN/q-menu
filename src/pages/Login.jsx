@@ -96,6 +96,9 @@ const Login = () => {
         </label>
         <button className='www'>{loader ? <Loader /> : 'Login'}</button>
       </form>
+      <small>
+        {window.screen.width} :: {window.screen.height}
+      </small>
     </div>
   );
 };
