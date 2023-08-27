@@ -2,7 +2,7 @@
 
 The Order and Table Management System is a full-stack application designed to optimize and simplify restaurant operations, streamlining the customer order flow to enhance service efficiency. The application offers an integrated solution for restaurants aiming to enhance customer experiences and improve internal management.
 
-The deployment of this application can be found at the following address: [Deploy-frontend](https://q-menu.vercel.app/).
+The deployment of this application can be found at the following address: [Deploy-frontend](https://i.imgur.com/0HaVJGv.gif).
 
 The link to the backend repository that serves this application can be found at the following address: [Repo-backend](https://github.com/Megas-MDN/backend-q-menu). As for the backend deployment link, it can be accessed at the following address: [Deploy-backend](https://backend-q-menu.vercel.app/).
 
@@ -17,6 +17,8 @@ The link to the backend repository that serves this application can be found at 
 The Orders and Tables Management System is a fullstack application designed to optimize and simplify restaurant operations, allowing for streamlined customer order flows and facilitating efficient service. The application provides an integrated solution for restaurants aiming to enhance customer experiences and improve internal management.
 
 #### Key Features:
+
+![application-running](https://i.imgur.com/Lir8IXE.gif)
 
 ##### Dashboard:
 
