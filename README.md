@@ -10,7 +10,7 @@ The link to the backend repository that serves this application can be found at 
 
 ## Application flow
 
-![application-running](https://i.imgur.com/EYpn2tB.gif)
+![application-running](https://i.imgur.com/0HaVJGv.gif)
 
 ### Description:
 
